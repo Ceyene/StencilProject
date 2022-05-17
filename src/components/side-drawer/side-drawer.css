@@ -1,0 +1,12 @@
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30vw;
+  height: 100vh;
+  background: #555454;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  color: bisque;
+  padding: 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
