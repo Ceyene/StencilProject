@@ -1,5 +1,6 @@
 //ES module import
 import { Component, h, State } from "@stencil/core";
+import { AV_API_KEY } from "../../global/global";
 
 //decorator -> Component -> receives a configuration object
 @Component({
@@ -18,7 +19,7 @@ export class StockPrice {
     event.preventDefault();
     //fetching data -> HTTP Request
     fetch(
-      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo${process.env.API_KEY}`
+      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo${AV_API_KEY}`
     )
       .then((res) => {
         return res.json();
