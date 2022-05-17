@@ -17,14 +17,30 @@ export class SideDrawer {
   //mutable prop
   @Prop({ reflect: true, mutable: true }) open: boolean;
 
-  //handler
+  //handlers
   onCloseDrawer() {
     this.open = false; //mutating prop
     console.log("Closing side drawer...");
   }
+  onContentChange(content: string) {}
 
   //render method
   render() {
+    //content to be rendered with an event listener on tabs
+    let mainContent = <slot />;
+    mainContent = (
+      <div>
+        <h2>Contact Information</h2>
+        <p>You can reach us via phone or email</p>
+        <ul>
+          <li>Phone: 54911111111</li>
+          <li>
+            E-mail: <a href="mailto:email@email.com">email@email.com</a>
+          </li>
+        </ul>
+      </div>
+    );
+
     return (
       <aside>
         <header>
@@ -32,12 +48,17 @@ export class SideDrawer {
           <button onClick={this.onCloseDrawer.bind(this)}> X </button>
         </header>
         <section class="tabs">
-          <button class="active">Navigation</button>
-          <button>Contact</button>
+          <button
+            class="active"
+            onClick={this.onContentChange.bind(this, "nav")}
+          >
+            Navigation
+          </button>
+          <button onClick={this.onContentChange.bind(this, "contact")}>
+            Contact
+          </button>
         </section>
-        <main>
-          <slot />
-        </main>
+        <main>{mainContent}</main>
       </aside>
     );
   }

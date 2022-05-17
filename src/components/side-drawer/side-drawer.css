@@ -68,3 +68,6 @@ header h1 {
 .tabs button:active {
   outline: none;
 }
+main {
+  padding: 0 1.5rem;
+}
