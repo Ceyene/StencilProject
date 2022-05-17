@@ -7,6 +7,13 @@ aside {
   background: #555454;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   color: bisque;
-  padding: 1rem;
+  padding: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+header {
+  padding: 1.5rem;
+  background: black;
+}
+header h1 {
+  font-size: 2rem;
 }
