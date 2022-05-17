@@ -11,6 +11,16 @@
     <script nomodule src="/build/mycomponent.js"></script>
   </head>
   <body>
-    <uc-side-drawer></uc-side-drawer>
+    <uc-side-drawer title="Main Menu"></uc-side-drawer>
   </body>
+  <script>
+    //getting custom element in JS and setting a change of property each 3 seconds
+    const sideDrawer = document.querySelector("uc-side-drawer");
+    setTimeout(() => {
+      sideDrawer.title = "It changed!";
+    }, 2000);
+    setTimeout(() => {
+      sideDrawer.setAttribute("title", "Now it changed via Attribute!");
+    }, 4000);
+  </script>
 </html>
