@@ -6,67 +6,16 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
     />
-    <title>Stencil Component Starter</title>
+    <title>Stencil Project - By Cyn Romero</title>
     <script type="module" src="/build/mycomponent.esm.js"></script>
     <script nomodule src="/build/mycomponent.js"></script>
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-      /* Nested elements can only be styled from the light DOM */
-      .side-nav ul {
-        list-style: none;
-        padding-inline-start: 0;
-      }
-      .side-nav li {
-        padding: 1.5rem;
-      }
-      .side-nav a {
-        text-decoration: none;
-        font-size: 1.5rem;
+        background-color: #181831;
         color: aliceblue;
       }
     </style>
   </head>
-  <body>
-    <button
-      id="side-drawer-btn"
-      style="
-        padding: 0.75rem 1rem;
-        background: rgb(107, 106, 106);
-        font-size: 1rem;
-        border-radius: 0.5rem;
-        color: white;
-      "
-    >
-      Open side menu
-    </button>
-    <uc-side-drawer title="Main Menu">
-      <nav class="side-nav">
-        <ul>
-          <li><a href="/">A link</a></li>
-          <li><a href="/">Another link</a></li>
-          <li><a href="/">A third link</a></li>
-        </ul>
-      </nav>
-    </uc-side-drawer>
-  </body>
-  <script>
-    const sideDrawerButton = document.querySelector("#side-drawer-btn");
-    const sideDrawer = document.querySelector("uc-side-drawer");
-    //using attributes to open side menu
-    sideDrawerButton.addEventListener("click", () => {
-      if (!sideDrawer.opened) {
-        console.log("Opening side drawer...");
-        sideDrawer.open();
-      }
-    });
-    //setting a change of property each 3 seconds
-    setTimeout(() => {
-      sideDrawer.title = "It changed!";
-    }, 2000);
-    setTimeout(() => {
-      sideDrawer.setAttribute("title", "Now it changed via Attribute!");
-    }, 4000);
-  </script>
+  <body></body>
 </html>
