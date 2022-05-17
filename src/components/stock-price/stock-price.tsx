@@ -13,7 +13,19 @@ export class StockPrice {
   //handler
   onFetchStockPrice(event: Event) {
     event.preventDefault();
-    console.log("Submitted!");
+    //fetching data -> HTTP Request
+    fetch(
+      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo${process.env.API_KEY}`
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((parsedRes) => {
+        console.log(parsedRes);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   //rendering component
