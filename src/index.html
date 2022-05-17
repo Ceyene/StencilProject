@@ -56,9 +56,9 @@
     const sideDrawer = document.querySelector("uc-side-drawer");
     //using attributes to open side menu
     sideDrawerButton.addEventListener("click", () => {
-      if (!sideDrawer.open) {
+      if (!sideDrawer.opened) {
         console.log("Opening side drawer...");
-        sideDrawer.open = true;
+        sideDrawer.open();
       }
     });
     //setting a change of property each 3 seconds

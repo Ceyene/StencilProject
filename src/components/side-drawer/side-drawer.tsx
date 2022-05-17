@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h, Prop, State } from "@stencil/core";
+import { Component, h, Method, Prop, State } from "@stencil/core";
 
 //decorator -> Component -> receives a configuration object
 @Component({
@@ -17,16 +17,21 @@ export class SideDrawer {
   //reflecting prop values to their respective attributes
   @Prop({ reflect: true }) title: string;
   //mutable prop
-  @Prop({ reflect: true, mutable: true }) open: boolean;
+  @Prop({ reflect: true, mutable: true }) opened: boolean;
 
   //handlers
   onCloseDrawer() {
-    this.open = false; //mutating prop
+    this.opened = false; //mutating prop
     console.log("Closing side drawer...");
   }
   onContentChange(content: string) {
     //mutate state, not needed a setState method
     this.showContactInfo = content === "contact";
+  }
+  //decorator -> Method -> creating public methods to the component
+  @Method()
+  async open() {
+    this.opened = true;
   }
 
   //render method

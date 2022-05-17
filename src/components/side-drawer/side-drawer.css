@@ -11,9 +11,9 @@ aside {
   transition: left 0.3s ease-out;
 }
 /*using attribute selector to open side drawer*/
-/* with scoped option: uc-side-drawer[open] selector  */
-/* with shadow DOM: :host([open]) selector */
-:host([open]) aside {
+/* with scoped option: uc-side-drawer[opened] selector  */
+/* with shadow DOM: :host([opened]) selector */
+:host([opened]) aside {
   left: 0;
 }
 header {
