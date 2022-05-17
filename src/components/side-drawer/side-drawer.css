@@ -19,6 +19,22 @@ aside {
 header {
   padding: 1.5rem;
   background: black;
+  position: relative;
+}
+header button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  color: aliceblue;
+  border: 3px solid aliceblue;
+  border-radius: 20%;
+  background: transparent;
+  font-size: 1.5rem;
+}
+header button:focus {
+  outline: none;
 }
 header h1 {
   font-size: 2rem;
