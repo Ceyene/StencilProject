@@ -14,7 +14,7 @@ export class SideDrawer {
   //decorator -> prop -> setting property or listening changes of property
   //reflecting prop values to their respective attributes
   @Prop({ reflect: true }) title: string;
-  @Prop() open: boolean;
+  @Prop({ reflect: true }) open: boolean;
 
   //render method
   render() {
