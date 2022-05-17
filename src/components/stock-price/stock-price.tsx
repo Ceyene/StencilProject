@@ -11,6 +11,14 @@ import { Component, h } from "@stencil/core";
 //component -> no need of extends here -> done automatically by stencil.js
 export class StockPrice {
   render() {
-    return <h1>Hi</h1>;
+    return [
+      <form>
+        <input id="stock-symbol" />
+        <button>Fetch</button>
+      </form>,
+      <div>
+        <p>Price: {0}</p>
+      </div>,
+    ];
   }
 }
