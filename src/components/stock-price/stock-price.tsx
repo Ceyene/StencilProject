@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h } from "@stencil/core";
+import { Component, h, State } from "@stencil/core";
 
 //decorator -> Component -> receives a configuration object
 @Component({
@@ -10,6 +10,9 @@ import { Component, h } from "@stencil/core";
 
 //component -> no need of extends here -> done automatically by stencil.js
 export class StockPrice {
+  //decorator -> state
+  @State() fetchedPrice: number;
+
   //handler
   onFetchStockPrice(event: Event) {
     event.preventDefault();
@@ -21,7 +24,7 @@ export class StockPrice {
         return res.json();
       })
       .then((parsedRes) => {
-        console.log(parsedRes);
+        this.fetchedPrice = +parsedRes["Global Quote"]["05. price"];
       })
       .catch((err) => {
         console.log(err);
@@ -31,12 +34,12 @@ export class StockPrice {
   //rendering component
   render() {
     return [
-      <form onSubmit={this.onFetchStockPrice}>
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
         <input id="stock-symbol" />
         <button>Fetch</button>
       </form>,
       <div>
-        <p>Price: {0}</p>
+        <p>Price: ${this.fetchedPrice}</p>
       </div>,
     ];
   }
