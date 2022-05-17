@@ -10,9 +10,16 @@ import { Component, h } from "@stencil/core";
 
 //component -> no need of extends here -> done automatically by stencil.js
 export class StockPrice {
+  //handler
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    console.log("Submitted!");
+  }
+
+  //rendering component
   render() {
     return [
-      <form>
+      <form onSubmit={this.onFetchStockPrice}>
         <input id="stock-symbol" />
         <button>Fetch</button>
       </form>,
