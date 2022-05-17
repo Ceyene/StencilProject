@@ -19,19 +19,29 @@ export class SideDrawer {
   //render method
   render() {
     //rendering conditionally
-    let content = null;
-    if (this.open) {
-      content = (
-        <aside>
-          <header>
-            <h1>{this.title}</h1>
-          </header>
-          <main>
-            <slot />
-          </main>
-        </aside>
-      );
-    }
-    return content;
+    // let content = null;
+    // if (this.open) {
+    //   content = (
+    //     <aside>
+    //       <header>
+    //         <h1>{this.title}</h1>
+    //       </header>
+    //       <main>
+    //         <slot />
+    //       </main>
+    //     </aside>
+    //   );
+    // }
+    // return content;
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+        </header>
+        <main>
+          <slot />
+        </main>
+      </aside>
+    );
   }
 }

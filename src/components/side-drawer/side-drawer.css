@@ -1,14 +1,20 @@
 aside {
   position: fixed;
   top: 0;
-  left: 0;
+  left: -100%;
   width: 30vw;
   height: 100vh;
   background: #555454;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   color: bisque;
   padding: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: left 0.3s ease-out;
+}
+/*using attribute selector to open side drawer*/
+/* with scoped option: uc-side-drawer[open] selector  */
+/* with shadow DOM: :host([open]) selector */
+:host([open]) aside {
+  left: 0;
 }
 header {
   padding: 1.5rem;
