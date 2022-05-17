@@ -14,18 +14,24 @@ export class SideDrawer {
   //decorator -> prop -> setting property or listening changes of property
   //reflecting prop values to their respective attributes
   @Prop({ reflect: true }) title: string;
+  @Prop() open: boolean;
 
   //render method
   render() {
-    return (
-      <aside>
-        <header>
-          <h1>{this.title}</h1>
-        </header>
-        <main>
-          <slot />
-        </main>
-      </aside>
-    );
+    //rendering conditionally
+    let content = null;
+    if (this.open) {
+      content = (
+        <aside>
+          <header>
+            <h1>{this.title}</h1>
+          </header>
+          <main>
+            <slot />
+          </main>
+        </aside>
+      );
+    }
+    return content;
   }
 }
