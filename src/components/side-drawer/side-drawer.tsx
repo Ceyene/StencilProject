@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h, Prop } from "@stencil/core";
+import { Component, h, Prop, State } from "@stencil/core";
 
 //decorator -> Component -> receives a configuration object
 @Component({
@@ -11,7 +11,9 @@ import { Component, h, Prop } from "@stencil/core";
 
 //component -> no need of extends here -> done automatically by stencil.js
 export class SideDrawer {
-  //decorator -> prop -> setting property or listening changes of property (props are inmmutable from inside the component)
+  //decorator -> state -> listening changes from inside the component
+  @State() showContactInfo = false;
+  //decorator -> prop -> setting property or listening changes of property from outside (props are inmmutable from inside the component)
   //reflecting prop values to their respective attributes
   @Prop({ reflect: true }) title: string;
   //mutable prop
@@ -22,24 +24,30 @@ export class SideDrawer {
     this.open = false; //mutating prop
     console.log("Closing side drawer...");
   }
-  onContentChange(content: string) {}
+  onContentChange(content: string) {
+    //mutate state, not needed a setState method
+    this.showContactInfo = content === "contact";
+  }
 
   //render method
   render() {
     //content to be rendered with an event listener on tabs
     let mainContent = <slot />;
-    mainContent = (
-      <div>
-        <h2>Contact Information</h2>
-        <p>You can reach us via phone or email</p>
-        <ul>
-          <li>Phone: 54911111111</li>
-          <li>
-            E-mail: <a href="mailto:email@email.com">email@email.com</a>
-          </li>
-        </ul>
-      </div>
-    );
+    //rendering content conditionally from state
+    if (this.showContactInfo) {
+      mainContent = (
+        <div>
+          <h2>Contact Information</h2>
+          <p>You can reach us via phone or email</p>
+          <ul>
+            <li>Phone: 54911111111</li>
+            <li>
+              E-mail: <a href="mailto:email@email.com">email@email.com</a>
+            </li>
+          </ul>
+        </div>
+      );
+    }
 
     return (
       <aside>
@@ -49,12 +57,15 @@ export class SideDrawer {
         </header>
         <section class="tabs">
           <button
-            class="active"
+            class={!this.showContactInfo ? "active" : ""}
             onClick={this.onContentChange.bind(this, "nav")}
           >
             Navigation
           </button>
-          <button onClick={this.onContentChange.bind(this, "contact")}>
+          <button
+            class={this.showContactInfo ? "active" : ""}
+            onClick={this.onContentChange.bind(this, "contact")}
+          >
             Contact
           </button>
         </section>
