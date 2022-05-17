@@ -12,7 +12,8 @@ import { Component, h, Prop } from "@stencil/core";
 //component -> no need of extends here -> done automatically by stencil.js
 export class SideDrawer {
   //decorator -> prop -> setting property or listening changes of property
-  @Prop() title: string;
+  //reflecting prop values to their respective attributes
+  @Prop({ reflect: true }) title: string;
 
   //render method
   render() {
