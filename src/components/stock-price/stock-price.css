@@ -1,4 +1,4 @@
-:host {
+form {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border: 2px solid aliceblue;
   margin: 2rem;
@@ -8,18 +8,18 @@
   text-align: center;
 }
 
-:host input {
+form input {
   font: inherit;
   width: 95%;
   font-size: 1.5rem;
   padding: 0.75rem;
   margin: 3rem auto;
 }
-:host input:focus,
-:host button:focus {
+form input:focus,
+form button:focus {
   outline: none;
 }
-:host button {
+form button {
   font: inherit;
   width: 55%;
   margin: 2rem auto;
@@ -32,10 +32,16 @@
   border: none;
   border-radius: 0.5rem;
 }
-:host button:hover,
-:host button:active {
+form button:hover,
+form button:active {
   background: aliceblue;
   color: #2aa5a5;
+}
+form button:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  color: aliceblue;
+  cursor: not-allowed;
 }
 :host p {
   font-size: 1rem;

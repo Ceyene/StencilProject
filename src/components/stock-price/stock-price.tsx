@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h, State, Element } from "@stencil/core";
+import { Component, h, State } from "@stencil/core";
 import { AV_API_KEY } from "../../global/global";
 
 //decorator -> Component -> receives a configuration object
@@ -15,8 +15,20 @@ export class StockPrice {
   stockInput: HTMLInputElement;
   //decorator -> state
   @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
 
-  //handler
+  //input handler (two way binding)
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+    //input validation (when not empty = valid)
+    if (this.stockUserInput.trim() !== "") {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+  //fetching data handler
   onFetchStockPrice(event: Event) {
     event.preventDefault();
     //accessing the DOM element's value through reference
@@ -40,8 +52,15 @@ export class StockPrice {
   render() {
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>
-        <input id="stock-symbol" ref={(el) => (this.stockInput = el)} />
-        <button>Fetch</button>
+        <input
+          id="stock-symbol"
+          ref={(el) => (this.stockInput = el)}
+          value={this.stockUserInput}
+          onInput={this.onUserInput.bind(this)}
+        />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
       </form>,
       <div>
         <p>Price: ${this.fetchedPrice}</p>
