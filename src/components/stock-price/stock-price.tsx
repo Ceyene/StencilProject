@@ -44,11 +44,26 @@ export class StockPrice {
   }
 
   //lifecycle hooks
+  componentWillLoad() {
+    console.log("Component will load..."); //runs before render method
+    console.log(this.stockSymbol); //it gets access to this value right before the component is loaded
+  }
   componentDidLoad() {
+    console.log("Component did load");
+    //don't change here states -> it will render again
     //if there is a value inside our props, make an HTTP Request
     if (this.stockSymbol) {
       this.fetchStockPrice(this.stockSymbol);
     }
+  }
+  componentWillUpdate() {
+    console.log("Component will update");
+  }
+  componentDidUpdate() {
+    console.log("Component did update");
+  }
+  componentDidUnload() {
+    console.log("Component removed from the DOM");
   }
 
   fetchStockPrice(stockSymbol: string) {
