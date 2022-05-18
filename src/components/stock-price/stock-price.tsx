@@ -11,19 +11,16 @@ import { AV_API_KEY } from "../../global/global";
 
 //component -> no need of extends here -> done automatically by stencil.js
 export class StockPrice {
-  //decorator -> element -> gives access to the host element
-  @Element() el: HTMLElement;
+  //accessing DOM element without decorators, only with a normal property ->
+  stockInput: HTMLInputElement;
   //decorator -> state
   @State() fetchedPrice: number;
 
   //handler
   onFetchStockPrice(event: Event) {
     event.preventDefault();
-    //accessing the host element value
-    const stockSymbol =
-      //declaring to TypeScript that this selected element from the shadow DOM is an input element
-      (this.el.shadowRoot.querySelector("#stock-symbol") as HTMLInputElement)
-        .value;
+    //accessing the DOM element's value through reference
+    const stockSymbol = this.stockInput.value;
     //fetching data -> HTTP Request
     fetch(
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
@@ -43,7 +40,7 @@ export class StockPrice {
   render() {
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>
-        <input id="stock-symbol" />
+        <input id="stock-symbol" ref={(el) => (this.stockInput = el)} />
         <button>Fetch</button>
       </form>,
       <div>
