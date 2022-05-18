@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h, State } from "@stencil/core";
+import { Component, h, State, Element } from "@stencil/core";
 import { AV_API_KEY } from "../../global/global";
 
 //decorator -> Component -> receives a configuration object
@@ -11,15 +11,22 @@ import { AV_API_KEY } from "../../global/global";
 
 //component -> no need of extends here -> done automatically by stencil.js
 export class StockPrice {
+  //decorator -> element -> gives access to the host element
+  @Element() el: HTMLElement;
   //decorator -> state
   @State() fetchedPrice: number;
 
   //handler
   onFetchStockPrice(event: Event) {
     event.preventDefault();
+    //accessing the host element value
+    const stockSymbol =
+      //declaring to TypeScript that this selected element from the shadow DOM is an input element
+      (this.el.shadowRoot.querySelector("#stock-symbol") as HTMLInputElement)
+        .value;
     //fetching data -> HTTP Request
     fetch(
-      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo${AV_API_KEY}`
+      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
     )
       .then((res) => {
         return res.json();
