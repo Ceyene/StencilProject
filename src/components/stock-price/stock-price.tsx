@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h, State } from "@stencil/core";
+import { Component, h, State, Prop } from "@stencil/core";
 import { AV_API_KEY } from "../../global/global";
 
 //decorator -> Component -> receives a configuration object
@@ -19,6 +19,10 @@ export class StockPrice {
   @State() stockInputValid = false;
   @State() error: string;
 
+  //prop (stock symbol now can be set from inside and outside the component)
+  //stock symbol here is set from outside the component, through props
+  @Prop() stockSymbol: string;
+
   //input handler (two way binding)
   onUserInput(event: Event) {
     this.stockUserInput = (event.target as HTMLInputElement).value;
@@ -33,7 +37,21 @@ export class StockPrice {
   onFetchStockPrice(event: Event) {
     event.preventDefault();
     //accessing the DOM element's value through reference
+    //stock symbol here is set from inside the component, using its input value
     const stockSymbol = this.stockInput.value;
+    //fetching data -> HTTP Request
+    this.fetchStockPrice(stockSymbol);
+  }
+
+  //lifecycle hooks
+  componentDidLoad() {
+    //if there is a value inside our props, make an HTTP Request
+    if (this.stockSymbol) {
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  fetchStockPrice(stockSymbol: string) {
     //fetching data -> HTTP Request
     fetch(
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
