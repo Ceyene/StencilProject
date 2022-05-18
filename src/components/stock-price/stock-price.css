@@ -1,4 +1,4 @@
-form {
+:host {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border: 2px solid aliceblue;
   margin: 2rem;
