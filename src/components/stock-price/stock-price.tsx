@@ -13,6 +13,7 @@ import { AV_API_KEY } from "../../global/global";
 export class StockPrice {
   //accessing DOM element without decorators, only with a normal property ->
   stockInput: HTMLInputElement;
+  initialStockSymbol: string;
   //decorator -> state
   @State() fetchedPrice: number;
   @State() stockUserInput: string;
@@ -53,6 +54,9 @@ export class StockPrice {
     //don't change here states -> it will render again
     //if there is a value inside our props, make an HTTP Request
     if (this.stockSymbol) {
+      this.initialStockSymbol = this.stockSymbol; //setting initial value
+      this.stockUserInput = this.stockSymbol; //rendering the initial symbol from props in the input
+      this.stockInputValid = true; //enabling form button
       this.fetchStockPrice(this.stockSymbol);
     }
   }
@@ -61,8 +65,14 @@ export class StockPrice {
   }
   componentDidUpdate() {
     console.log("Component did update");
+    //checking if stock symbol has changed from the initial value and making another HTTP Request
+    if (this.stockSymbol !== this.initialStockSymbol) {
+      this.initialStockSymbol = this.stockSymbol; //setting updated value
+      this.fetchStockPrice(this.stockSymbol);
+      this.stockUserInput = this.stockSymbol; //rendering the updated symbol from props in the input
+    }
   }
-  componentDidUnload() {
+  disconnectedCallback() {
     console.log("Component removed from the DOM");
   }
 
