@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h, State, Prop } from "@stencil/core";
+import { Component, h, State, Prop, Watch } from "@stencil/core";
 import { AV_API_KEY } from "../../global/global";
 
 //decorator -> Component -> receives a configuration object
@@ -13,7 +13,6 @@ import { AV_API_KEY } from "../../global/global";
 export class StockPrice {
   //accessing DOM element without decorators, only with a normal property ->
   stockInput: HTMLInputElement;
-  initialStockSymbol: string;
   //decorator -> state
   @State() fetchedPrice: number;
   @State() stockUserInput: string;
@@ -22,7 +21,16 @@ export class StockPrice {
 
   //prop (stock symbol now can be set from inside and outside the component)
   //stock symbol here is set from outside the component, through props
-  @Prop() stockSymbol: string;
+  @Prop({ mutable: true, reflect: true }) stockSymbol: string;
+
+  //watching prop changes and reacting to those changes
+  @Watch("stockSymbol")
+  stockSymbolChanged(newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this.stockUserInput = newValue;
+      this.fetchStockPrice(newValue);
+    }
+  }
 
   //input handler (two way binding)
   onUserInput(event: Event) {
@@ -39,9 +47,9 @@ export class StockPrice {
     event.preventDefault();
     //accessing the DOM element's value through reference
     //stock symbol here is set from inside the component, using its input value
-    const stockSymbol = this.stockInput.value;
-    //fetching data -> HTTP Request
-    this.fetchStockPrice(stockSymbol);
+    this.stockSymbol = this.stockInput.value;
+    //fetching data -> no need of making here an HTTP Request, it will be made from the watch prop method
+    //this.fetchStockPrice(stockSymbol);
   }
 
   //lifecycle hooks
@@ -54,7 +62,6 @@ export class StockPrice {
     //don't change here states -> it will render again
     //if there is a value inside our props, make an HTTP Request
     if (this.stockSymbol) {
-      this.initialStockSymbol = this.stockSymbol; //setting initial value
       this.stockUserInput = this.stockSymbol; //rendering the initial symbol from props in the input
       this.stockInputValid = true; //enabling form button
       this.fetchStockPrice(this.stockSymbol);
@@ -66,11 +73,6 @@ export class StockPrice {
   componentDidUpdate() {
     console.log("Component did update");
     //checking if stock symbol has changed from the initial value and making another HTTP Request
-    if (this.stockSymbol !== this.initialStockSymbol) {
-      this.initialStockSymbol = this.stockSymbol; //setting updated value
-      this.fetchStockPrice(this.stockSymbol);
-      this.stockUserInput = this.stockSymbol; //rendering the updated symbol from props in the input
-    }
   }
   disconnectedCallback() {
     console.log("Component removed from the DOM");
