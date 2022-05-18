@@ -56,14 +56,16 @@ export class StockPrice {
   componentWillLoad() {
     console.log("Component will load..."); //runs before render method
     console.log(this.stockSymbol); //it gets access to this value right before the component is loaded
+    if (this.stockSymbol) {
+      this.stockInputValid = true; //enabling form button
+      this.stockUserInput = this.stockSymbol; //rendering the initial symbol from props in the input
+    }
   }
   componentDidLoad() {
     console.log("Component did load");
     //don't change here states -> it will render again
     //if there is a value inside our props, make an HTTP Request
     if (this.stockSymbol) {
-      this.stockUserInput = this.stockSymbol; //rendering the initial symbol from props in the input
-      this.stockInputValid = true; //enabling form button
       this.fetchStockPrice(this.stockSymbol);
     }
   }
