@@ -17,6 +17,7 @@ export class StockPrice {
   @State() fetchedPrice: number;
   @State() stockUserInput: string;
   @State() stockInputValid = false;
+  @State() error: string;
 
   //input handler (two way binding)
   onUserInput(event: Event) {
@@ -38,18 +39,35 @@ export class StockPrice {
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
     )
       .then((res) => {
+        if (res.status !== 200) {
+          throw new Error("Request failed!");
+        }
         return res.json();
       })
       .then((parsedRes) => {
+        //checking if our response exists
+        if (!parsedRes["Global Quote"]["05. price"]) {
+          throw new Error("Invalid symbol requested");
+        }
+        this.error = null;
         this.fetchedPrice = +parsedRes["Global Quote"]["05. price"];
       })
       .catch((err) => {
-        console.log(err);
+        this.error = err.message;
       });
   }
 
   //rendering component
   render() {
+    //rendering response
+    let dataContent = <p>Please, enter a symbol</p>;
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>
         <input
@@ -62,9 +80,7 @@ export class StockPrice {
           Fetch
         </button>
       </form>,
-      <div>
-        <p>Price: ${this.fetchedPrice}</p>
-      </div>,
+      <div>{dataContent}</div>,
     ];
   }
 }
