@@ -115,7 +115,16 @@ export class StockPrice {
       })
       .catch((err) => {
         this.error = err.message;
+        this.fetchedPrice = null; //removing any previous price value and rendering an invalid input message
       });
+  }
+
+  //returns object with metadata about custom element
+  //runs each time component is re-evaluated and re-executed
+  hostData() {
+    return {
+      class: this.error ? "error" : "",
+    };
   }
 
   //rendering component
