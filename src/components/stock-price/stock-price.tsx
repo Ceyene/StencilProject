@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h, State, Prop, Watch } from "@stencil/core";
+import { Component, h, State, Prop, Watch, Listen } from "@stencil/core";
 import { AV_API_KEY } from "../../global/global";
 
 //decorator -> Component -> receives a configuration object
@@ -28,6 +28,7 @@ export class StockPrice {
   stockSymbolChanged(newValue: string, oldValue: string) {
     if (newValue !== oldValue) {
       this.stockUserInput = newValue;
+      this.stockInputValid = true;
       this.fetchStockPrice(newValue);
     }
   }
@@ -80,6 +81,19 @@ export class StockPrice {
     console.log("Component removed from the DOM");
   }
 
+  //listening custom events from other components
+  //adding a target to ensure it's listening globally
+  @Listen("ucSymbolSelected", { target: "body" })
+  onStockSymbolSelected(event: CustomEvent) {
+    console.log("Stock Symbol selected: " + event.detail);
+    //checking if there is a new stock symbol and it's not the same as the current one
+    if (event.detail && event.detail !== this.stockSymbol) {
+      //updating state and triggering a new HTTP Request
+      this.stockSymbol = event.detail;
+    }
+  }
+
+  //fetching data handler
   fetchStockPrice(stockSymbol: string) {
     //fetching data -> HTTP Request
     fetch(
