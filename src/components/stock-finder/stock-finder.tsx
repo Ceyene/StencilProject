@@ -14,6 +14,7 @@ export class StockFinder {
   //property for input ref
   stockNameInput: HTMLInputElement;
   //decorator -> state
+  @State() searchResults: { symbol: string; name: string }[] = []; //assigning an empty array to avoid an error when trying to run map on undefined
   @State() error: string;
 
   //form handler
@@ -37,7 +38,9 @@ export class StockFinder {
           throw new Error("Invalid stock requested");
         }
         this.error = null;
-        console.log(parsedRes);
+        this.searchResults = parsedRes["bestMatches"].map((match) => {
+          return { name: match["2. name"], symbol: match["1. symbol"] };
+        });
       })
       .catch((err) => {
         this.error = err.message;
@@ -50,6 +53,13 @@ export class StockFinder {
         <input id="stock-symbol" ref={(el) => (this.stockNameInput = el)} />
         <button type="submit">Find Stock Symbol!</button>
       </form>,
+      <ul>
+        {this.searchResults.map((result) => (
+          <li>
+            <strong>{result.symbol}</strong> - {result.name}
+          </li>
+        ))}
+      </ul>,
     ];
   }
 }
