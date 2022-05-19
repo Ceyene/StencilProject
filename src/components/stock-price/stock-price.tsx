@@ -18,6 +18,7 @@ export class StockPrice {
   @State() stockUserInput: string;
   @State() stockInputValid = false;
   @State() error: string;
+  @State() loading = false;
 
   //prop (stock symbol now can be set from inside and outside the component)
   //stock symbol here is set from outside the component, through props
@@ -95,6 +96,8 @@ export class StockPrice {
 
   //fetching data handler
   fetchStockPrice(stockSymbol: string) {
+    //loading state: loading
+    this.loading = true;
     //fetching data -> HTTP Request
     fetch(
       `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`
@@ -112,10 +115,14 @@ export class StockPrice {
         }
         this.error = null;
         this.fetchedPrice = +parsedRes["Global Quote"]["05. price"];
+        //finished loading
+        this.loading = false;
       })
       .catch((err) => {
         this.error = err.message;
         this.fetchedPrice = null; //removing any previous price value and rendering an invalid input message
+        //finished loading
+        this.loading = false;
       });
   }
 
@@ -137,6 +144,24 @@ export class StockPrice {
     if (this.fetchedPrice) {
       dataContent = <p>Price: ${this.fetchedPrice}</p>;
     }
+    if (this.loading) {
+      dataContent = (
+        <div class="lds-default">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      );
+    }
 
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>
@@ -146,7 +171,7 @@ export class StockPrice {
           value={this.stockUserInput}
           onInput={this.onUserInput.bind(this)}
         />
-        <button type="submit" disabled={!this.stockInputValid}>
+        <button type="submit" disabled={!this.stockInputValid || this.loading}>
           Fetch
         </button>
       </form>,
