@@ -145,22 +145,7 @@ export class StockPrice {
       dataContent = <p>Price: ${this.fetchedPrice}</p>;
     }
     if (this.loading) {
-      dataContent = (
-        <div class="lds-default">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      );
+      dataContent = <uc-spinner />;
     }
 
     return [

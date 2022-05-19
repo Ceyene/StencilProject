@@ -16,6 +16,7 @@ export class StockFinder {
   //decorator -> state
   @State() searchResults: { symbol: string; name: string }[] = []; //assigning an empty array to avoid an error when trying to run map on undefined
   @State() error: string;
+  @State() loading = false;
   //decorator -> event -> creating custom event of EventEmitter generic type
   @Event({ bubbles: true, composed: true })
   ucSymbolSelected: EventEmitter<string>;
@@ -23,6 +24,8 @@ export class StockFinder {
   //form handler
   onFindStocks(event: Event) {
     event.preventDefault();
+    //start loading
+    this.loading = true;
     //taking value from DOM element with ref
     const stockName = this.stockNameInput.value;
     //searching coincidences with characters from user input
@@ -36,6 +39,8 @@ export class StockFinder {
         return res.json();
       })
       .then((parsedRes) => {
+        //finished loading
+        this.loading = false;
         //checking if our response exists
         if (!parsedRes) {
           throw new Error("Invalid stock requested");
@@ -55,18 +60,25 @@ export class StockFinder {
   }
 
   render() {
-    return [
-      <form onSubmit={this.onFindStocks.bind(this)}>
-        <input id="stock-symbol" ref={(el) => (this.stockNameInput = el)} />
-        <button type="submit">Find Stock Symbol!</button>
-      </form>,
+    //rendering content conditionally
+    let content = (
       <ul>
         {this.searchResults.map((result) => (
           <li onClick={this.onSelectSymbol.bind(this, result.symbol)}>
             <strong>{result.symbol}</strong> - {result.name}
           </li>
         ))}
-      </ul>,
+      </ul>
+    );
+    if (this.loading) {
+      content = <uc-spinner />;
+    }
+    return [
+      <form onSubmit={this.onFindStocks.bind(this)}>
+        <input id="stock-symbol" ref={(el) => (this.stockNameInput = el)} />
+        <button type="submit">Find Stock Symbol!</button>
+      </form>,
+      content,
     ];
   }
 }
