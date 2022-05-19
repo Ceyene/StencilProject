@@ -1,9 +1,9 @@
 {
-  "name": "my-component",
+  "name": "uc-stock-finder",
   "version": "0.0.1",
-  "description": "Stencil Component Starter",
-  "module": "dist/esm/index.js",
-  "main": "dist/index.js",
+  "description": "Stock Finder: Stencil Web Components Project by Cynthia Romero",
+  "module": "./dist/index.js",
+  "main": "./dist/index.cjs.js",
   "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "files": [
