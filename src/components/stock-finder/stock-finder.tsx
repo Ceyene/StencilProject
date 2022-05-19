@@ -1,5 +1,5 @@
 //ES module import
-import { Component, h, State } from "@stencil/core";
+import { Component, h, State, Event, EventEmitter } from "@stencil/core";
 import { AV_API_KEY } from "../../global/global";
 
 //decorator -> Component -> receives a configuration object
@@ -16,6 +16,9 @@ export class StockFinder {
   //decorator -> state
   @State() searchResults: { symbol: string; name: string }[] = []; //assigning an empty array to avoid an error when trying to run map on undefined
   @State() error: string;
+  //decorator -> event -> creating custom event of EventEmitter generic type
+  @Event({ bubbles: true, composed: true })
+  ucSymbolSelected: EventEmitter<string>;
 
   //form handler
   onFindStocks(event: Event) {
@@ -46,6 +49,10 @@ export class StockFinder {
         this.error = err.message;
       });
   }
+  //emitting custom events when clicking on item from search results
+  onSelectSymbol(symbol: string) {
+    this.ucSymbolSelected.emit(symbol);
+  }
 
   render() {
     return [
@@ -55,7 +62,7 @@ export class StockFinder {
       </form>,
       <ul>
         {this.searchResults.map((result) => (
-          <li>
+          <li onClick={this.onSelectSymbol.bind(this, result.symbol)}>
             <strong>{result.symbol}</strong> - {result.name}
           </li>
         ))}

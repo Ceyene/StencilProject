@@ -27,5 +27,13 @@
   <body>
     <uc-stock-price stock-symbol="AAPL"></uc-stock-price>
     <uc-stock-finder></uc-stock-finder>
+
+    <script>
+      //listening custom events
+      const stockFinderElement = document.querySelector("uc-stock-finder");
+      stockFinderElement.addEventListener("ucSymbolSelected", (event) => {
+        console.log(event);
+      });
+    </script>
   </body>
 </html>

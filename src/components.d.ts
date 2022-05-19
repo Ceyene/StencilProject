@@ -48,6 +48,7 @@ declare namespace LocalJSX {
         "title"?: string;
     }
     interface UcStockFinder {
+        "onUcSymbolSelected"?: (event: CustomEvent<string>) => void;
     }
     interface UcStockPrice {
         "stockSymbol"?: string;

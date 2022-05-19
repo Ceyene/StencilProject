@@ -47,12 +47,18 @@ form button:disabled {
   color: aliceblue;
   cursor: not-allowed;
 }
-:host ul {
+ul {
   padding-inline-start: 0;
   list-style: none;
 }
-:host li {
+li {
   margin: 0.5rem 0;
   padding: 0.75rem;
   border: 1px solid #2aa5a5;
+  cursor: pointer;
+}
+li:hover,
+li:active {
+  background: #2aa5a5;
+  color: aliceblue;
 }
