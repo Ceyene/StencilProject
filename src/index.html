@@ -10,13 +10,19 @@
     <script type="module" src="/build/mycomponent.esm.js"></script>
     <script nomodule src="/build/mycomponent.js"></script>
     <style>
+      html {
+        --color-primary: #181831;
+        --color-secondary: #2aa5a5;
+        --color-light: aliceblue;
+        --color-error: orange;
+      }
       * {
         box-sizing: border-box;
       }
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #181831;
-        color: aliceblue;
+        background-color: var(--color-primary, #efefef);
+        color: var(--color-light);
         display: flex;
         flex-direction: column;
         justify-content: center;

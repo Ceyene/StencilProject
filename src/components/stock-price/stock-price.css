@@ -4,7 +4,7 @@
 
 :host {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  border: 2px solid aliceblue;
+  border: 2px solid var(--color-light);
   margin: 5vw;
   padding: 1rem;
   display: block;
@@ -14,7 +14,7 @@
 }
 
 :host(.error) {
-  border-color: orange;
+  border-color: var(--color-error);
 }
 
 form input {
@@ -36,20 +36,20 @@ form button {
   font-size: 1.75rem;
   letter-spacing: 0.1rem;
   font-weight: 600;
-  background-color: #2aa5a5;
-  color: aliceblue;
+  background-color: var(--color-secondary);
+  color: var(--color-light);
   border: none;
   border-radius: 0.5rem;
 }
 form button:hover,
 form button:active {
-  background: aliceblue;
-  color: #2aa5a5;
+  background: var(--color-light);
+  color: var(--color-secondary);
 }
 form button:disabled {
   background: #ccc;
   border-color: #ccc;
-  color: aliceblue;
+  color: var(--color-light);
   cursor: not-allowed;
 }
 :host p {
